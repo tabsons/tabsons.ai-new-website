@@ -1,0 +1,574 @@
+<!-- blog-post.html - Code Block 9/11 (Continued) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Blog Post Title - tabsons.ai</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #030712; }
+        .bg-gradient-blob { position: absolute; width: 500px; height: 500px; border-radius: 50%; opacity: 0.2; filter: blur(150px); animation: blob-animation 20s infinite alternate; z-index: 0; }
+        .blob-1 { background: radial-gradient(circle, #8B5CF6 0%, transparent 70%); top: 5%; left: 5%; animation-delay: 0s; }
+        .blob-2 { background: radial-gradient(circle, #06B6D4 0%, transparent 70%); bottom: 10%; right: 15%; animation-delay: 5s; width: 600px; height: 600px; }
+        .animate-fade-in-up { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; } .animate-fade-in-up.is-visible { opacity: 1; transform: translateY(0); }
+        .animate-fade-in { opacity: 0; transition: opacity 1s ease-out; } .animate-fade-in.is-visible { opacity: 1; }
+        .animate-slide-in-left { opacity: 0; transform: translateX(-50px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; } .animate-slide-in-left.is-visible { opacity: 1; transform: translateX(0); }
+        .animate-slide-in-right { opacity: 0; transform: translateX(50px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; } .animate-slide-in-right.is-visible { opacity: 1; transform: translateX(0); }
+        @keyframes blob-animation { 0% { transform: translate(0, 0) scale(1); } 33% { transform: translate(30vw, 20vh) scale(1.1); } 66% { transform: translate(-15vw, -25vh) scale(0.9); } 100% { transform: translate(0, 0) scale(1); } }
+        
+        /* NEW NAVBAR STYLES */
+        .mobile-nav-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(3, 7, 18, 0.98); z-index: 60; transform: translateX(100%); transition: transform 0.3s ease-out; backdrop-filter: blur(10px); } 
+        .mobile-nav-overlay.is-open { transform: translateX(0); }
+        .nav-link { position: relative; }
+        .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; left: 0; background-color: #6366f1; transition: width 0.3s; }
+        .nav-link:hover::after { width: 100%; }
+
+        /* Blog content styling */
+        .blog-content h2 {
+            font-size: 1.875rem;    /* text-3xl */
+            line-height: 2.25rem;
+            font-weight: 700;       /* font-bold */
+            color: #ffffff;         /* text-white */
+            margin-top: 2rem;       /* mt-8 */
+            margin-bottom: 1rem;    /* mb-4 */
+        }
+        .blog-content h3 {
+            font-size: 1.5rem;      /* text-2xl */
+            line-height: 2rem;
+            font-weight: 600;       /* font-semibold */
+            color: #ffffff;
+            margin-top: 1.5rem;     /* mt-6 */
+            margin-bottom: 0.75rem; /* mb-3 */
+        }
+        .blog-content h4 {
+            font-size: 1.25rem;     /* text-xl */
+            line-height: 1.75rem;
+            font-weight: 500;       /* font-medium */
+            color: #ffffff;
+            margin-top: 1.25rem;    /* mt-5 */
+            margin-bottom: 0.5rem;  /* mb-2 */
+        }
+        .blog-content p {
+            color: #D1D5DB;         /* text-gray-300 */
+            line-height: 1.75;      /* leading-relaxed */
+            margin-bottom: 1rem;    /* mb-4 */
+        }
+        .blog-content ul,
+        .blog-content ol {
+            color: #D1D5DB;
+            margin-bottom: 1rem;    /* mb-4 */
+            padding-left: 1rem;     /* pl-4 */
+            list-style-position: inside;
+        }
+        .blog-content ul { list-style-type: disc; }
+        .blog-content ol { list-style-type: decimal; }
+        .blog-content li { margin-bottom: 0.5rem; } /* mb-2 */
+        .blog-content a {
+            color: #6366F1;         /* approximate indigo-400 */
+            text-decoration: underline;
+        }
+        .blog-content a:hover { color: #7C3AED; }     /* slightly different hover tint */
+        .blog-content img {
+            width: 100%;
+            border-radius: 0.5rem;  /* rounded-lg */
+            box-shadow: 0 10px 15px rgba(0,0,0,0.5); /* shadow-lg */
+            margin: 1.5rem 0;       /* my-6 */
+        }
+        .blog-content blockquote {
+            border-left: 4px solid #6366F1; /* border-indigo-500 */
+            padding-left: 1rem;             /* pl-4 */
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+            font-style: italic;
+            color: #9CA3AF;                 /* text-gray-400 */
+            margin: 1.5rem 0;               /* my-6 */
+        }
+        .blog-content pre {
+            background: #111827;    /* bg-gray-800-ish */
+            padding: 1rem;          /* p-4 */
+            border-radius: 0.375rem;/* rounded-md */
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Courier New", monospace;
+            font-size: 0.875rem;    /* text-sm */
+            overflow-x: auto;
+            margin: 1.5rem 0;       /* my-6 */
+        }
+        .blog-content strong {
+            font-weight: 600;       /* font-semibold */
+            color: #ffffff;
+        }
+        .blog-content em {
+            font-style: italic;
+            color: #D1D5DB;         /* text-gray-300 */
+        }
+        .blog-content hr {
+            border: 0;
+            border-top: 1px solid #374151; /* border-gray-700 */
+            margin: 2rem 0;                /* my-8 */
+        }
+    </style>
+</head>
+<body class="bg-gray-950 text-gray-100 overflow-x-hidden">
+
+    <!-- Background Blobs -->
+    <div class="bg-gradient-blob blob-1 hidden md:block"></div>
+    <div class="bg-gradient-blob blob-2 hidden md:block"></div>
+
+    <!-- NEW MODERN FLOATING HEADER -->
+    <header class="fixed top-0 left-0 right-0 z-50 flex justify-center pt-0 md:pt-6 px-0 md:px-4 transition-all duration-300">
+        <div class="w-full max-w-[90rem] bg-gray-950/70 md:bg-gray-900/60 backdrop-filter backdrop-blur-xl border-b md:border border-white/10 md:rounded-2xl shadow-[0_0_30px_rgba(0,0,0,0.5)] flex justify-between items-center px-6 py-3 md:py-4">
+            
+            <!-- Logo -->
+            <a href="index.html" class="flex items-center gap-2 group">
+                <div class="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold shadow-lg group-hover:shadow-indigo-500/50 transition-all duration-300">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <span class="text-xl font-bold text-white tracking-tight group-hover:text-indigo-400 transition-colors duration-300">tabsons.ai</span>
+            </a>
+            
+            <!-- Desktop Navigation -->
+            <!-- Used text-sm and tight spacing to fit all links cleanly -->
+            <nav class="hidden xl:flex items-center space-x-6 text-sm font-medium text-gray-400">
+                <a href="index.html" class="nav-link hover:text-white transition-colors duration-300">Home</a>
+                <a href="about.html" class="nav-link hover:text-white transition-colors duration-300">About</a>
+                <a href="solutions.html" class="nav-link hover:text-white transition-colors duration-300">Solutions</a>
+                <a href="industries.html" class="nav-link hover:text-white transition-colors duration-300">Industries</a>
+                <a href="media-intelligence.html" class="nav-link hover:text-white transition-colors duration-300">Media Intelligence</a>
+                <a href="insights.html" class="nav-link hover:text-white transition-colors duration-300">Insights</a>
+                <a href="clients.html" class="nav-link hover:text-white transition-colors duration-300">Clients</a>
+                <a href="blog.html" class="text-white font-semibold">Blog</a> <!-- Active Page Style -->
+                <a href="careers.html" class="nav-link hover:text-white transition-colors duration-300">Careers</a>
+                <a href="contact.html" class="nav-link hover:text-white transition-colors duration-300">Contact</a>
+            </nav>
+
+            <!-- Tablet/Smaller Desktop Navigation (Condensed) -->
+            <nav class="hidden lg:flex xl:hidden items-center space-x-5 text-sm font-medium text-gray-400">
+                <a href="solutions.html" class="nav-link hover:text-white transition-colors duration-300">Solutions</a>
+                <a href="media-intelligence.html" class="nav-link hover:text-white transition-colors duration-300">Media Intelligence</a>
+                <a href="insights.html" class="nav-link hover:text-white transition-colors duration-300">Insights</a>
+                <a href="clients.html" class="nav-link hover:text-white transition-colors duration-300">Clients</a>
+                <a href="blog.html" class="text-white font-semibold">Blog</a> <!-- Active Page Style -->
+                <a href="careers.html" class="nav-link hover:text-white transition-colors duration-300">Careers</a>
+                <a href="contact.html" class="nav-link hover:text-white transition-colors duration-300">Contact</a>
+            </nav>
+
+            <!-- Book a Demo Button (Desktop) -->
+            <div class="hidden lg:flex items-center gap-4">
+                <a href="contact.html" class="px-6 py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-sm font-semibold rounded-full hover:from-indigo-500 hover:to-purple-500 transition-all duration-300 shadow-[0_0_15px_rgba(79,70,229,0.4)] hover:shadow-[0_0_25px_rgba(79,70,229,0.6)] transform hover:-translate-y-0.5 border border-white/10">
+                    Book a Demo
+                </a>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button id="mobile-menu-button" class="lg:hidden text-gray-300 hover:text-white focus:outline-none p-2">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+        </div>
+    </header>
+
+
+    <!-- Mobile Navigation Overlay -->
+    <div id="mobile-nav-overlay" class="mobile-nav-overlay lg:hidden flex flex-col justify-center items-center">
+        <button id="close-mobile-menu-button" class="absolute top-6 right-8 text-gray-300 hover:text-indigo-400 focus:outline-none">
+            <i class="fas fa-times text-3xl"></i>
+        </button>
+        <nav class="flex flex-col space-y-6 text-center text-2xl">
+            <a href="index.html" class="text-gray-300 hover:text-indigo-400 transition-colors duration-300 font-medium">Home</a>
+            <a href="about.html" class="text-gray-300 hover:text-indigo-400 transition-colors duration-300 font-medium">About Us</a>
+            <a href="solutions.html" class="text-gray-300 hover:text-indigo-400 transition-colors duration-300 font-medium">Solutions</a>
+            <a href="industries.html" class="text-gray-300 hover:text-indigo-400 transition-colors duration-300 font-medium">Industries</a>
+            <a href="media-intelligence.html" class="text-gray-300 hover:text-indigo-400 transition-colors duration-300 font-medium">Media Intelligence</a>
+            <a href="insights.html" class="text-gray-300 hover:text-indigo-400 transition-colors duration-300 font-medium">Insights</a>
+            <a href="clients.html" class="text-gray-300 hover:text-indigo-400 transition-colors duration-300 font-medium">Clients</a>
+            <a href="blog.html" class="text-indigo-400 font-semibold">Blog</a> <!-- Active Page Style -->
+            <a href="careers.html" class="text-gray-300 hover:text-indigo-400 transition-colors duration-300 font-medium">Careers</a>
+            <a href="contact.html" class="text-gray-300 hover:text-indigo-400 transition-colors duration-300 font-medium">Contact</a>
+            <a href="contact.html" class="mt-8 px-6 py-3 bg-indigo-600 text-white font-semibold rounded-full hover:bg-indigo-700 transition-colors duration-300 shadow-lg inline-block w-48 mx-auto">Book a Demo</a>
+        </nav>
+    </div>
+
+    <main class="relative z-10">
+        <!-- Blog Post Hero Section -->
+        <section class="relative bg-gray-950 py-16 md:py-24 text-center overflow-hidden">
+            <div class="relative z-10 max-w-4xl mx-auto px-4 animate-fade-in-up" data-animation-type="fade-in-up">
+                <p id="post-category" class="text-sm font-semibold text-indigo-400 mb-3 uppercase tracking-wider"></p>
+                <h1 id="post-title-hero" class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-4">
+                    Blog Post Title Placeholder
+                </h1>
+                <p id="post-subtitle" class="text-lg sm:text-xl text-gray-300 mb-8 max-w-2xl mx-auto"></p>
+                <div class="flex items-center justify-center text-gray-400 text-sm md:text-base">
+                    <div class="flex items-center mr-6">
+                        <i class="fas fa-calendar-alt mr-2 text-indigo-400"></i><span id="post-date"></span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-user-circle mr-2 text-indigo-400"></i><span id="post-author"></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blog Post Content Section -->
+        <section class="py-16 md:py-24 bg-gray-900 relative z-10">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <img id="post-image" src="https://via.placeholder.com/1200x600/1F2937/D1D5DB?text=Blog+Post+Image" alt="Featured Image" class="w-full rounded-lg shadow-lg mb-10 animate-fade-in" data-animation-type="fade-in">
+                
+                <div id="blog-content" class="blog-content animate-fade-in-up" data-animation-type="fade-in-up" data-animation-delay="0.2s">
+                    <!-- Dynamic content will be injected here by JavaScript -->
+                    <p class="text-gray-400 text-center">Loading blog post content...</p>
+                </div>
+
+                <div class="mt-12 pt-8 border-t border-gray-700 flex justify-between items-center animate-fade-in-up" data-animation-type="fade-in-up" data-animation-delay="0.4s">
+                    <a href="blog.html" class="inline-flex items-center text-indigo-400 hover:text-indigo-300 transition-colors duration-300 font-medium">
+                        <i class="fas fa-arrow-left mr-3"></i> Back to Blog
+                    </a>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-indigo-500 transition-colors duration-300 text-xl"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-indigo-500 transition-colors duration-300 text-xl"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-indigo-500 transition-colors duration-300 text-xl"><i class="fab fa-facebook-f"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Posts Section -->
+        <section class="py-16 md:py-24 bg-gray-950 relative z-10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-bold text-center text-white mb-12 animate-fade-in-up" data-animation-type="fade-in-up">Related Articles</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Related Blog Post Card 1 -->
+                    <div class="bg-gray-800 rounded-lg shadow-xl overflow-hidden border border-gray-700 hover:border-indigo-500 transition-all duration-300 animate-fade-in-up" data-animation-type="fade-in-up" data-animation-delay="0.1s">
+                        <img src="https://via.placeholder.com/400x250/1F2937/D1D5DB?text=Related+1" alt="Related Post Image" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <span class="text-indigo-400 text-sm font-semibold mb-2 block">AI & Innovation</span>
+                            <h3 class="text-xl font-semibold text-white mb-3">The Rise of Generative AI in Content Creation</h3>
+                            <p class="text-gray-300 text-sm mb-4">Exploring how generative AI is transforming creative industries and its implications for media intelligence.</p>
+                            <a href="blog-post.html?id=generative-ai" class="text-indigo-400 hover:text-indigo-300 font-medium transition-colors duration-300">Read More <i class="fas fa-arrow-right ml-2"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Related Blog Post Card 2 -->
+                    <div class="bg-gray-800 rounded-lg shadow-xl overflow-hidden border border-gray-700 hover:border-cyan-400 transition-all duration-300 animate-fade-in-up" data-animation-type="fade-in-up" data-animation-delay="0.2s">
+                        <img src="https://via.placeholder.com/400x250/1F2937/D1D5DB?text=Related+2" alt="Related Post Image" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <span class="text-cyan-400 text-sm font-semibold mb-2 block">Case Study</span>
+                            <h3 class="text-xl font-semibold text-white mb-3">How AI Saved a Broadcaster Millions in Compliance</h3>
+                            <p class="text-gray-300 text-sm mb-4">A deep dive into a real-world scenario where AI prevented costly compliance penalties.</p>
+                            <a href="blog-post.html?id=broadcaster-compliance" class="text-cyan-400 hover:text-cyan-300 font-medium transition-colors duration-300">Read More <i class="fas fa-arrow-right ml-2"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Related Blog Post Card 3 -->
+                    <div class="bg-gray-800 rounded-lg shadow-xl overflow-hidden border border-gray-700 hover:border-purple-400 transition-all duration-300 animate-fade-in-up" data-animation-type="fade-in-up" data-animation-delay="0.3s">
+                        <img src="https://via.placeholder.com/400x250/1F2937/D1D5DB?text=Related+3" alt="Related Post Image" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <span class="text-purple-400 text-sm font-semibold mb-2 block">Technology</span>
+                            <h3 class="text-xl font-semibold text-white mb-3">The Evolution of Speech-to-Text Technology</h3>
+                            <p class="text-gray-300 text-sm mb-4">Tracking the journey and breakthroughs in AI-driven speech recognition for media analysis.</p>
+                            <a href="blog-post.html?id=speech-to-text" class="text-purple-400 hover:text-purple-300 font-medium transition-colors duration-300">Read More <i class="fas fa-arrow-right ml-2"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Banner (Copied from index.html) -->
+        <section class="bg-indigo-600 py-16 md:py-20 text-center relative z-10 animate-fade-in" data-animation-type="fade-in" data-animation-delay="0.2s">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl sm:text-4xl font-bold text-white mb-8 leading-tight">Join the conversation about AI in media.</h2>
+                <a href="blog.html" class="px-8 py-4 bg-white text-indigo-600 text-lg font-semibold rounded-full hover:bg-gray-100 transition-all duration-300 shadow-xl transform hover:-translate-y-1">
+                    Explore More Posts
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer (Copied from index.html) -->
+    <footer class="bg-gray-950 py-12 relative z-10 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8 text-gray-300">
+            <!-- Logo & About -->
+            <div>
+                <a href="index.html" class="text-2xl font-bold text-indigo-500 mb-4 block">tabsons.ai</a>
+                <p class="text-gray-400 text-sm leading-relaxed">
+                    Pioneering AI-powered media intelligence to empower businesses with actionable insights and operational efficiency.
+                </p>
+            </div>
+
+            <!-- Quick Links -->
+            <div>
+                <h4 class="text-lg font-semibold text-white mb-4">Quick Links</h4>
+                <ul class="space-y-2">
+                    <li><a href="about.html" class="hover:text-indigo-400 transition-colors duration-300">About Us</a></li>
+                    <li><a href="solutions.html" class="hover:text-indigo-400 transition-colors duration-300">Solutions</a></li>
+                    <li><a href="industries.html" class="hover:text-indigo-400 transition-colors duration-300">Industries</a></li>
+                    <li><a href="media-intelligence.html" class="hover:text-indigo-400 transition-colors duration-300">Media Intelligence</a></li>
+                    <li><a href="insights.html" class="hover:text-indigo-400 transition-colors duration-300">Insights</a></li>
+                </ul>
+            </div>
+
+            <!-- More Links -->
+            <div>
+                <h4 class="text-lg font-semibold text-white mb-4">Company</h4>
+                <ul class="space-y-2">
+                    <li><a href="clients.html" class="hover:text-indigo-400 transition-colors duration-300">Clients</a></li>
+                    <li><a href="blog.html" class="hover:text-indigo-400 transition-colors duration-300">Blog</a></li>
+                    <li><a href="careers.html" class="hover:text-indigo-400 transition-colors duration-300">Careers</a></li>
+                    <li><a href="contact.html" class="hover:text-indigo-400 transition-colors duration-300">Contact Us</a></li>
+                    <li><a href="#" class="hover:text-indigo-400 transition-colors duration-300">Privacy Policy</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact & Social -->
+            <div>
+                <h4 class="text-lg font-semibold text-white mb-4">Get in Touch</h4>
+                <p class="text-gray-400 mb-2">754, Khandsa Rd, Pace City II, Sector 37, Gurugram, Mohammadpur Jharsa, Haryana 122001</p>
+                <p class="text-gray-400 mb-2">Email: <a href="mailto:info@tabsons.ai" class="hover:text-indigo-400">info@tabsons.ai</a></p>
+                <p class="text-gray-400 mb-4">Phone: <a href="tel:+15551234567" class="hover:text-indigo-400">+91 82877 68751 / +91 98186 39577</a></p>
+                <div class="flex space-x-4">
+                    <a href="https://in.linkedin.com/company/tabsons.com" class="text-gray-400 hover:text-indigo-500 transition-colors duration-300 text-xl" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-indigo-500 transition-colors duration-300 text-xl"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-indigo-500 transition-colors duration-300 text-xl"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/tabsons/" class="text-gray-400 hover:text-indigo-500 transition-colors duration-300 text-xl" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="mt-10 pt-6 border-t border-gray-800 text-center text-gray-500 text-sm">
+            &copy; <span id="current-year"></span> 
+            <span class="font-bold text-indigo-500">tabsons.ai</span>. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // Blog post data (simulated backend data)
+        const blogPosts = {
+            "ai-reshaping-media": {
+                title: "How AI is Reshaping Media Monitoring and Analytics",
+                subtitle: "Explore the transformative power of artificial intelligence in revolutionizing how media content is tracked, analyzed, and understood, offering unprecedented depth and speed.",
+                category: "AI & Media",
+                date: "October 26, 2023",
+                author: "tabsons.ai Team",
+                image: "https://via.placeholder.com/1200x600/1F2937/D1D5DB?text=AI+for+Media",
+                content: `
+                    <p>The media landscape is undergoing a profound transformation, driven largely by the rapid advancements in Artificial Intelligence. What was once a labor-intensive process of manual content monitoring and analysis is now being revolutionized by intelligent systems capable of processing vast amounts of data at unprecedented speeds.</p>
+                    
+                    <h2>The Evolution of Media Monitoring</h2>
+                    <p>Historically, media monitoring relied on human analysts sifting through newspapers, listening to radio broadcasts, and watching television. This was slow, expensive, and prone to human error. With the advent of digital media and the explosion of content, this approach became unsustainable. Enter AI.</p>
+                    
+                    <h3>Key AI Applications in Media Intelligence:</h3>
+                    <ul>
+                        <li><strong>Automated Speech Recognition (ASR):</strong> Converting spoken words from audio and video into text, enabling searchability and analysis.</li>
+                        <li><strong>Natural Language Processing (NLP):</strong> Understanding the context, sentiment, and key topics within textual content.</li>
+                        <li><strong>Computer Vision:</strong> Identifying logos, faces, and objects in images and videos for brand tracking and content verification.</li>
+                        <li><strong>Predictive Analytics:</strong> Forecasting media trends, audience engagement, and potential crises.</li>
+                    </ul>
+
+                    <blockquote>"AI is not just automating tasks; it's revealing insights that were previously hidden, providing a more holistic and accurate view of the media ecosystem." - Dr. Alex Chen, CEO tabsons.ai</blockquote>
+
+                    <h2>Enhanced Analytics and Insights</h2>
+                    <p>Beyond simple monitoring, AI-powered systems excel at providing deeper analytics. They can track the spread of a story across various platforms, identify influential voices, and even predict the virality of content. This allows businesses and organizations to:</p>
+                    <ol>
+                        <li>Respond to media mentions in real-time.</li>
+                        <li>Measure the true impact of PR campaigns.</li>
+                        <li>Understand brand perception and sentiment.</li>
+                        <li>Identify competitive strategies and market gaps.</li>
+                    </ol>
+
+                    <p>The integration of AI into media intelligence platforms like tabsons.ai ensures that professionals are not just collecting data, but are equipped with actionable insights to make informed decisions swiftly.</p>
+                    <img src="https://via.placeholder.com/800x450/1F2937/D1D5DB?text=AI+Analytics+Graph" alt="AI Analytics Graph" />
+                    <p>The future promises even more sophisticated tools, with AI becoming an indispensable partner in navigating the complexities of modern media.</p>
+                `
+            },
+            "data-privacy-media": {
+                title: "Data Privacy in the Age of Advanced Media Intelligence",
+                subtitle: "Understand the critical balance between leveraging media data for insights and ensuring robust privacy protection for individuals and organizations.",
+                category: "Privacy & Tech",
+                date: "October 20, 2023",
+                author: "Guest Author",
+                image: "https://via.placeholder.com/1200x600/1F2937/D1D5DB?text=Data+Privacy",
+                content: `
+                    <p>As media intelligence tools become increasingly powerful, the discussion around data privacy intensifies. The ability of AI to collect, process, and analyze vast quantities of public and semi-public data presents both immense opportunities and significant ethical challenges.</p>
+                    
+                    <h2>The Privacy Landscape</h2>
+                    <p>Regulations like GDPR and CCPA have set new standards for how personal data is handled. For media intelligence companies, this means a careful navigation of publicly available information versus private data, and ensuring all data collection practices are transparent and compliant.</p>
+
+                    <h3>Challenges and Considerations:</h3>
+                    <ul>
+                        <li><strong>Anonymization:</strong> Ensuring that data used for analysis cannot be traced back to individuals.</li>
+                        <li><strong>Consent:</strong> When necessary, obtaining explicit consent for data usage, especially for user-generated content.</li>
+                        <li><strong>Data Minimization:</strong> Collecting only the data that is absolutely necessary for the intended purpose.</li>
+                        <li><strong>Security:</strong> Protecting collected data from breaches and unauthorized access.</li>
+                    </ul>
+
+                    <p>tabsons.ai is committed to adhering to the highest standards of data privacy and ethical AI development. Our solutions are designed with privacy-by-design principles, ensuring that while we deliver powerful insights, we also respect individual rights and regulatory frameworks.</p>
+                    
+                    <p>The goal is to build trust with both our clients and the public, proving that advanced media intelligence can coexist harmoniously with stringent data privacy measures.</p>
+                `
+            },
+            "future-trends-2024": {
+                title: "Predicting the Next Wave: Media Intelligence Trends for 2024",
+                subtitle: "Our experts share their predictions on the key technological advancements and market shifts that will define media intelligence next year.",
+                category: "Industry Trends",
+                date: "October 15, 2023",
+                author: "Analytics Team",
+                image: "https://via.placeholder.com/1200x600/1F2937/D1D5DB?text=Future+Trends",
+                content: `
+                    <p>2024 is set to be another dynamic year for media intelligence. With the acceleration of AI development and changing consumption habits, we anticipate several key trends shaping how organizations understand and interact with media content.</p>
+                    
+                    <h2>Top Trends to Watch:</h2>
+                    <ol>
+                        <li><strong>Hyper-Personalized Insights:</strong> AI will move beyond general trends to offer highly personalized insights, tailored to specific business goals and niche audiences.</li>
+                        <li><strong>Multimodal Analysis:</strong> The ability to seamlessly integrate and analyze data from text, audio, video, and image sources will become standard, providing a richer, more comprehensive view.</li>
+                        <li><strong>Ethical AI Frameworks:</strong> Growing demand for transparent, fair, and unbiased AI models will drive the development of more robust ethical AI frameworks in data collection and analysis.</li>
+                        <li><strong>Real-time Crisis Management:</strong> AI-powered early warning systems will become more sophisticated, enabling instant detection and analysis of potential crises as they unfold across media.</li>
+                        <li><strong>Generative AI for Content Ideation:</strong> While not monitoring directly, generative AI will play a role in suggesting content ideas based on media insights, closing the loop between analysis and creation.</li>
+                    </ol>
+                    
+                    <p>These trends highlight a future where media intelligence is not just a reactive tool but a proactive strategic partner, guiding decision-making and fostering innovation across industries.</p>
+                `
+            },
+            "generative-ai": {
+                title: "The Rise of Generative AI in Content Creation",
+                subtitle: "Exploring how generative AI is transforming creative industries and its implications for media intelligence.",
+                category: "AI & Innovation",
+                date: "November 5, 2023",
+                author: "tabsons.ai Team",
+                image: "https://via.placeholder.com/1200x600/1F2937/D1D5DB?text=Generative+AI",
+                content: `
+                    <p>Generative AI, the technology behind tools like ChatGPT and Midjourney, is rapidly changing the landscape of content creation. From drafting articles to generating entire video segments, its capabilities are expanding daily. This has significant implications for how media is produced, distributed, and ultimately, monitored.</p>
+                    
+                    <h2>Impact on Media Intelligence:</h2>
+                    <ul>
+                        <li><strong>Content Volume:</strong> Expect an even greater explosion of content, making AI-powered monitoring essential to cut through the noise.</li>
+                        <li><strong>Authenticity Challenges:</strong> Identifying AI-generated content versus human-created content will become a new frontier for media intelligence.</li>
+                        <li><strong>Trend Spotting:</strong> Generative AI can quickly create content around emerging trends, requiring monitoring tools to adapt to faster cycles.</li>
+                    </ul>
+                `
+            },
+            "broadcaster-compliance": {
+                title: "How AI Saved a Broadcaster Millions in Compliance",
+                subtitle: "A deep dive into a real-world scenario where AI prevented costly compliance penalties.",
+                category: "Case Study",
+                date: "October 30, 2023",
+                author: "tabsons.ai Case Studies",
+                image: "https://via.placeholder.com/1200x600/1F2937/D1D5DB?text=Compliance+Case+Study",
+                content: `
+                    <p>A major European broadcaster faced increasing pressure to comply with complex and evolving regulatory standards regarding content display, ad breaks, and language requirements. Manual checks were resource-intensive and still resulted in occasional, costly penalties.</p>
+                    
+                    <h2>The Solution:</h2>
+                    <p>tabsons.ai implemented a comprehensive AI-driven compliance monitoring system. This system used advanced computer vision and NLP to:</p>
+                    <ul>
+                        <li>Automatically verify the placement and duration of all advertisements.</li>
+                        <li>Ensure correct display of regulatory captions and warnings.</li>
+                        <li>Flag any instance of inappropriate content or language violations.</li>
+                    </ul>
+
+                    <h2>The Outcome:</h2>
+                    <p>Within six months, the broadcaster reported a 98% reduction in compliance-related penalties. The automated system not only saved millions in potential fines but also freed up their compliance team to focus on strategic oversight rather than tedious manual review. This case study highlights the tangible ROI of AI in media operations.</p>
+                `
+            },
+            "speech-to-text": {
+                title: "The Evolution of Speech-to-Text Technology",
+                subtitle: "Tracking the journey and breakthroughs in AI-driven speech recognition for media analysis.",
+                category: "Technology",
+                date: "September 28, 2023",
+                author: "Tech Research",
+                image: "https://via.placeholder.com/1200x600/1F2937/D1D5DB?text=Speech+to+Text+Evolution",
+                content: `
+                    <p>Speech-to-Text (STT) technology has come a long way from its early, often unreliable forms. Driven by advancements in neural networks and deep learning, modern STT systems can transcribe audio with remarkable accuracy, even in challenging environments with multiple speakers or background noise.</p>
+                    
+                    <h2>Impact on Media Intelligence:</h2>
+                    <p>For media intelligence, accurate STT is foundational. It unlocks the ability to:</p>
+                    <ul>
+                        <li>Search and analyze spoken content from broadcasts, podcasts, and video.</li>
+                        <li>Generate automated subtitles and captions.</li>
+                        <li>Identify keywords, brands, and sentiment within audio streams.</li>
+                        <li>Enable compliance monitoring for spoken content.</li>
+                    </ul>
+                    
+                    <p>The future of STT promises even greater accuracy, real-time processing capabilities, and better handling of diverse accents and languages, further enhancing the depth and breadth of media insights.</p>
+                `
+            }
+            // Add more blog posts as needed following this structure
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set current year in footer
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            // Mobile Navigation Toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const closeMobileMenuButton = document.getElementById('close-mobile-menu-button');
+            const mobileNavOverlay = document.getElementById('mobile-nav-overlay');
+
+            mobileMenuButton.addEventListener('click', () => {
+                mobileNavOverlay.classList.add('is-open');
+                document.body.style.overflow = 'hidden'; // Prevent scrolling when menu is open
+            });
+
+            closeMobileMenuButton.addEventListener('click', () => {
+                mobileNavOverlay.classList.remove('is-open');
+                document.body.style.overflow = ''; // Restore scrolling
+            });
+
+            // Close mobile menu when a link is clicked
+            mobileNavOverlay.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileNavOverlay.classList.remove('is-open');
+                    document.body.style.overflow = '';
+                });
+            });
+
+            // Smooth Scroll & Section Entrance Animations
+            const animateElements = document.querySelectorAll('[data-animation-type]');
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const animationType = entry.target.dataset.animationType;
+                        const animationDelay = entry.target.dataset.animationDelay || '0s';
+
+                        entry.target.style.transitionDelay = animationDelay;
+                        entry.target.classList.add('is-visible');
+                        
+                        // Stop observing once element is visible
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -10% 0px' }); // Trigger when 10% of element is visible, with a small offset
+
+            animateElements.forEach(element => {
+                observer.observe(element);
+            });
+
+            // Dynamic Blog Post Content Loader
+            const urlParams = new URLSearchParams(window.location.search);
+            const postId = urlParams.get('id');
+            const post = blogPosts[postId];
+
+            if (post) {
+                document.getElementById('page-title').textContent = post.title + " - tabsons.ai Blog";
+                document.getElementById('post-category').textContent = post.category;
+                document.getElementById('post-title-hero').textContent = post.title;
+                document.getElementById('post-subtitle').textContent = post.subtitle;
+                document.getElementById('post-date').textContent = post.date;
+                document.getElementById('post-author').textContent = post.author;
+                document.getElementById('post-image').src = post.image;
+                document.getElementById('blog-content').innerHTML = post.content;
+            } else {
+                // Handle case where post is not found
+                document.getElementById('page-title').textContent = "Post Not Found - tabsons.ai Blog";
+                document.getElementById('post-category').textContent = "Error";
+                document.getElementById('post-title-hero').textContent = "Blog Post Not Found";
+                document.getElementById('post-subtitle').textContent = "The requested blog post could not be found. Please check the URL or return to the blog listing.";
+                document.getElementById('post-date').textContent = "N/A";
+                document.getElementById('post-author').textContent = "N/A";
+                document.getElementById('post-image').src = "https://via.placeholder.com/1200x600/4B5563/D1D5DB?text=Post+Not+Found";
+                document.getElementById('blog-content').innerHTML = `
+                    <p class="text-center text-red-400 text-lg">We apologize, but the content you are looking for does not exist or has been moved.</p>
+                    <p class="text-center text-gray-400 mt-4"><a href="blog.html" class="text-indigo-400 hover:underline">Return to Blog Listing</a></p>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>

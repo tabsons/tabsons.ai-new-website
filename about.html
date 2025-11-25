@@ -1,0 +1,371 @@
+<!-- about.html - Updated with Modern Navbar -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - tabsons.ai</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #030712; }
+        .bg-gradient-blob { position: absolute; width: 500px; height: 500px; border-radius: 50%; opacity: 0.2; filter: blur(150px); animation: blob-animation 20s infinite alternate; z-index: 0; }
+        .blob-1 { background: radial-gradient(circle, #8B5CF6 0%, transparent 70%); top: 5%; left: 5%; animation-delay: 0s; }
+        .blob-2 { background: radial-gradient(circle, #06B6D4 0%, transparent 70%); bottom: 10%; right: 15%; animation-delay: 5s; width: 600px; height: 600px; }
+        .animate-fade-in-up { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; } .animate-fade-in-up.is-visible { opacity: 1; transform: translateY(0); }
+        .animate-fade-in { opacity: 0; transition: opacity 1s ease-out; } .animate-fade-in.is-visible { opacity: 1; }
+        .animate-slide-in-left { opacity: 0; transform: translateX(-50px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; } .animate-slide-in-left.is-visible { opacity: 1; transform: translateX(0); }
+        .animate-slide-in-right { opacity: 0; transform: translateX(50px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; } .animate-slide-in-right.is-visible { opacity: 1; transform: translateX(0); }
+        @keyframes blob-animation { 0% { transform: translate(0, 0) scale(1); } 33% { transform: translate(30vw, 20vh) scale(1.1); } 66% { transform: translate(-15vw, -25vh) scale(0.9); } 100% { transform: translate(0, 0) scale(1); } }
+        
+        /* NEW NAVBAR STYLES */
+        .mobile-nav-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(3, 7, 18, 0.98); z-index: 60; transform: translateX(100%); transition: transform 0.3s ease-out; backdrop-filter: blur(10px); } 
+        .mobile-nav-overlay.is-open { transform: translateX(0); }
+        .nav-link { position: relative; }
+        .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; left: 0; background-color: #6366f1; transition: width 0.3s; }
+        .nav-link:hover::after { width: 100%; }
+
+        /* Timeline styles */
+        .timeline { position: relative; padding: 20px 0; }
+        .timeline::before { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; background: #374151; transform: translateX(-50%); }
+        .timeline-item { position: relative; margin-bottom: 50px; }
+        .timeline-item-content { background: #1F2937; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: 1px solid #374151; }
+        .timeline-item-content::before { content: ''; position: absolute; top: 20px; width: 0; height: 0; border-style: solid; }
+        .timeline-item.left .timeline-item-content { margin-right: 50%; text-align: right; }
+        .timeline-item.left .timeline-item-content::before { right: -10px; border-width: 10px 0 10px 10px; border-color: transparent transparent transparent #1F2937; }
+        .timeline-item.right .timeline-item-content { margin-left: 50%; text-align: left; }
+        .timeline-item.right .timeline-item-content::before { left: -10px; border-width: 10px 10px 10px 0; border-color: transparent #1F2937 transparent transparent; }
+        .timeline-item-marker { position: absolute; top: 20px; width: 16px; height: 16px; background: #6366F1; border-radius: 50%; z-index: 1; left: 50%; transform: translateX(-50%); border: 2px solid #1F2937; }
+
+        @media (max-width: 768px) {
+            .timeline::before { left: 10px; transform: translateX(0); }
+            .timeline-item.left .timeline-item-content,
+            .timeline-item.right .timeline-item-content { margin: 0 0 0 30px; text-align: left; }
+            .timeline-item.left .timeline-item-content::before,
+            .timeline-item.right .timeline-item-content::before { left: -10px; right: auto; border-width: 10px 10px 10px 0; border-color: transparent #1F2937 transparent transparent; }
+            .timeline-item-marker { left: 10px; transform: translateX(-50%); }
+        }
+    </style>
+</head>
+<body class="bg-gray-950 text-gray-100 overflow-x-hidden">
+
+    <!-- Background Blobs -->
+    <div class="bg-gradient-blob blob-1 hidden md:block"></div>
+    <div class="bg-gradient-blob blob-2 hidden md:block"></div>
+
+    <!-- NEW MODERN FLOATING HEADER -->
+    <header class="fixed top-0 left-0 right-0 z-50 flex justify-center pt-0 md:pt-6 px-0 md:px-4 transition-all duration-300">
+        <div class="w-full max-w-[90rem] bg-gray-950/70 md:bg-gray-900/60 backdrop-filter backdrop-blur-xl border-b md:border border-white/10 md:rounded-2xl shadow-[0_0_30px_rgba(0,0,0,0.5)] flex justify-between items-center px-6 py-3 md:py-4">
+            
+            <!-- Logo -->
+            <a href="index.html" class="flex items-center gap-2 group">
+                <div class="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold shadow-lg group-hover:shadow-indigo-500/50 transition-all duration-300">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <span class="text-xl font-bold text-white tracking-tight group-hover:text-indigo-400 transition-colors duration-300">tabsons.ai</span>
+            </a>
+            
+            <!-- Desktop Navigation -->
+            <!-- Used text-sm and tight spacing to fit all links cleanly -->
+            <nav class="hidden xl:flex items-center space-x-6 text-sm font-medium text-gray-400">
+                <a href="index.html" class="nav-link hover:text-white transition-colors duration-300">Home</a>
+                <a href="about.html" class="text-white font-semibold">About</a> <!-- Active Page Style -->
+                <a href="solutions.html" class="nav-link hover:text-white transition-colors duration-300">Solutions</a>
+                <a href="industries.html" class="nav-link hover:text-white transition-colors duration-300">Industries</a>
+                <a href="media-intelligence.html" class="nav-link hover:text-white transition-colors duration-300">Media Intelligence</a>
+                <a href="insights.html" class="nav-link hover:text-white transition-colors duration-300">Insights</a>
+                <a href="clients.html" class="nav-link hover:text-white transition-colors duration-300">Clients</a>
+                <a href="blog.html" class="nav-link hover:text-white transition-colors duration-300">Blog</a>
+                <a href="careers.html" class="nav-link hover:text-white transition-colors duration-300">Careers</a>
+                <a href="contact.html" class="nav-link hover:text-white transition-colors duration-300">Contact</a>
+            </nav>
+
+            <!-- Tablet/Smaller Desktop Navigation (Condensed) -->
+            <nav class="hidden lg:flex xl:hidden items-center space-x-5 text-sm font-medium text-gray-400">
+                <a href="solutions.html" class="nav-link hover:text-white transition-colors duration-300">Solutions</a>
+                <a href="media-intelligence.html" class="nav-link hover:text-white transition-colors duration-300">Media Intelligence</a>
+                <a href="insights.html" class="nav-link hover:text-white transition-colors duration-300">Insights</a>
+                <a href="contact.html" class="nav-link hover:text-white transition-colors duration-300">Contact</a>
+            </nav>
+
+            <!-- Book a Demo Button (Desktop) -->
+            <div class="hidden lg:flex items-center gap-4">
+                <a href="contact.html" class="px-6 py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-sm font-semibold rounded-full hover:from-indigo-500 hover:to-purple-500 transition-all duration-300 shadow-[0_0_15px_rgba(79,70,229,0.4)] hover:shadow-[0_0_25px_rgba(79,70,229,0.6)] transform hover:-translate-y-0.5 border border-white/10">
+                    Book a Demo
+                </a>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button id="mobile-menu-button" class="lg:hidden text-gray-300 hover:text-white focus:outline-none p-2">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation Overlay -->
+    <div id="mobile-nav-overlay" class="mobile-nav-overlay lg:hidden flex flex-col justify-center items-center">
+        <button id="close-mobile-menu-button" class="absolute top-6 right-8 text-gray-300 hover:text-indigo-400 focus:outline-none">
+            <i class="fas fa-times text-3xl"></i>
+        </button>
+        <nav class="flex flex-col space-y-6 text-center text-2xl">
+            <a href="index.html" class="text-gray-300 hover:text-indigo-400 transition-colors duration-300 font-medium">Home</a>
+            <a href="about.html" class="text-indigo-400 font-semibold">About Us</a> <!-- Active Page Style -->
+            <a href="solutions.html" class="text-gray-300 hover:text-indigo-400 transition-colors duration-300 font-medium">Solutions</a>
+            <a href="industries.html" class="text-gray-300 hover:text-indigo-400 transition-colors duration-300 font-medium">Industries</a>
+            <a href="media-intelligence.html" class="text-gray-300 hover:text-indigo-400 transition-colors duration-300 font-medium">Media Intelligence</a>
+            <a href="insights.html" class="text-gray-300 hover:text-indigo-400 transition-colors duration-300 font-medium">Insights</a>
+            <a href="clients.html" class="text-gray-300 hover:text-indigo-400 transition-colors duration-300 font-medium">Clients</a>
+            <a href="blog.html" class="text-gray-300 hover:text-indigo-400 transition-colors duration-300 font-medium">Blog</a>
+            <a href="careers.html" class="text-gray-300 hover:text-indigo-400 transition-colors duration-300 font-medium">Careers</a>
+            <a href="contact.html" class="text-gray-300 hover:text-indigo-400 transition-colors duration-300 font-medium">Contact</a>
+            <a href="contact.html" class="mt-8 px-6 py-3 bg-indigo-600 text-white font-semibold rounded-full hover:bg-indigo-700 transition-colors duration-300 shadow-lg inline-block w-48 mx-auto">Book a Demo</a>
+        </nav>
+    </div>
+
+    <main class="relative z-10">
+        <!-- Hero Section -->
+        <section class="relative bg-gray-950 py-32 md:py-40 text-center overflow-hidden">
+            <div class="relative z-10 max-w-4xl mx-auto px-4 animate-fade-in-up" data-animation-type="fade-in-up">
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6">
+                    About <span class="text-indigo-500">tabsons.ai</span>
+                </h1>
+                <p class="text-lg sm:text-xl text-gray-300 mb-10 max-w-2xl mx-auto">
+                    Pioneering the future of media intelligence with cutting-edge AI technology and an unwavering commitment to innovation.
+                </p>
+            </div>
+        </section>
+
+        <!-- Company Overview -->
+        <section class="py-16 md:py-24 bg-gray-900 relative z-10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="lg:flex lg:items-center lg:space-x-12">
+                    <div class="lg:w-1/2 mb-10 lg:mb-0 animate-slide-in-left" data-animation-type="slide-in-left">
+                        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=400&fit=crop" alt="Our Team" class="rounded-lg shadow-xl w-full h-auto object-cover">
+                    </div>
+                    <div class="lg:w-1/2 animate-slide-in-right" data-animation-type="slide-in-right">
+                        <h2 class="text-3xl font-bold text-white mb-6">Who We Are</h2>
+                        <p class="text-gray-300 mb-4 leading-relaxed">
+                            Tabsons is a trusted name in media and satcom products, specializing in system integration for media, broadcast, and IT services. Our 24/7 infrastructure ensures seamless operations, supporting over <span style="color: #00D9FF; font-weight: 700;">600+ channels across India</span>. With <span style="color: #00D9FF; font-weight: 700;">40 million hours</span> of media monitoring expertise, we deliver deep analytics for informed decision-making.
+                        </p>
+                        <p class="text-gray-300 mb-4 leading-relaxed">
+                            Our innovative <span style="color: #00D9FF; font-weight: 700;">Tabsons.AI Application Studio</span> drives AI-powered solutions that enhance operational efficiency and system performance. By harnessing the power of AI, we deliver intelligent solutions that cater to the growing needs of the media and technology sectors. With an impressive <span style="color: #00D9FF; font-weight: 700;">99.5% accuracy</span> in AI applications like brand detection and speech analytics, we set industry benchmarks.
+                        </p>
+                        <p class="text-gray-300 leading-relaxed">
+                            At Tabsons, we are dedicated to pushing the boundaries of technology and leveraging AI to transform the media landscape, ensuring we remain a trusted partner in this rapidly evolving industry.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mission & Vision -->
+        <section class="py-16 md:py-24 bg-gray-950 relative z-10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <div class="p-8 bg-gray-800 rounded-lg shadow-xl border border-gray-700 animate-fade-in-up" data-animation-type="fade-in-up">
+                        <div class="text-indigo-500 text-5xl mb-4"><i class="fas fa-bullseye"></i></div>
+                        <h3 class="text-2xl font-semibold text-white mb-3">Our Mission</h3>
+                        <p class="text-gray-300 leading-relaxed">
+                            To revolutionize media intelligence by providing accurate, real-time, and actionable AI-driven insights that enable businesses to make smarter decisions and optimize their media strategies.
+                        </p>
+                    </div>
+                    <div class="p-8 bg-gray-800 rounded-lg shadow-xl border border-gray-700 animate-fade-in-up" data-animation-type="fade-in-up" data-animation-delay="0.2s">
+                        <div class="text-cyan-400 text-5xl mb-4"><i class="fas fa-eye"></i></div>
+                        <h3 class="text-2xl font-semibold text-white mb-3">Our Vision</h3>
+                        <p class="text-gray-300 leading-relaxed">
+                            To be the global leader in AI-powered media intelligence, transforming how organizations perceive and interact with the media landscape through continuous innovation and ethical AI.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Leadership Team -->
+        <section class="py-16 md:py-24 bg-gray-900 relative z-10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-bold text-center text-white mb-12 animate-fade-in-up" data-animation-type="fade-in-up">Meet Our Leadership</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="bg-gray-800 rounded-lg shadow-xl overflow-hidden animate-fade-in-up" data-animation-type="fade-in-up" data-animation-delay="0.1s">
+                        <img src="https://via.placeholder.com/400x300/1F2937/D1D5DB?text=CEO" alt="CEO" class="w-full h-64 object-cover object-top">
+                        <div class="p-6 text-center">
+                            <h3 class="text-xl font-semibold text-white mb-1">Dr. Alex Chen</h3>
+                            <p class="text-indigo-400 mb-3">CEO & Founder</p>
+                            <p class="text-gray-400 text-sm">Visionary leader with a background in AI research and media analytics.</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-800 rounded-lg shadow-xl overflow-hidden animate-fade-in-up" data-animation-type="fade-in-up" data-animation-delay="0.2s">
+                        <img src="https://via.placeholder.com/400x300/1F2937/D1D5DB?text=CTO" alt="CTO" class="w-full h-64 object-cover object-top">
+                        <div class="p-6 text-center">
+                            <h3 class="text-xl font-semibold text-white mb-1">Maria Rodriguez</h3>
+                            <p class="text-cyan-400 mb-3">Chief Technology Officer</p>
+                            <p class="text-gray-400 text-sm">Expert in scalable AI platforms and real-time data processing.</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-800 rounded-lg shadow-xl overflow-hidden animate-fade-in-up" data-animation-type="fade-in-up" data-animation-delay="0.3s">
+                        <img src="https://via.placeholder.com/400x300/1F2937/D1D5DB?text=COO" alt="COO" class="w-full h-64 object-cover object-top">
+                        <div class="p-6 text-center">
+                            <h3 class="text-xl font-semibold text-white mb-1">David Lee</h3>
+                            <p class="text-purple-400 mb-3">Chief Operating Officer</p>
+                            <p class="text-gray-400 text-sm">Drives operational excellence and strategic partnerships in the media sector.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Company Timeline -->
+        <section class="py-16 md:py-24 bg-gray-950 relative z-10">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-bold text-center text-white mb-16 animate-fade-in-up" data-animation-type="fade-in-up">Our Journey</h2>
+                <div class="timeline">
+                    <div class="timeline-item left animate-slide-in-left" data-animation-type="slide-in-left">
+                        <div class="timeline-item-content">
+                            <h3 class="text-xl font-semibold text-white mb-2">2018: Founding & Research</h3>
+                            <p class="text-gray-300">tabsons.ai is founded with a vision to apply advanced AI to complex media data challenges.</p>
+                        </div>
+                        <div class="timeline-item-marker"></div>
+                    </div>
+                    <div class="timeline-item right animate-slide-in-right" data-animation-type="slide-in-right">
+                        <div class="timeline-item-content">
+                            <h3 class="text-xl font-semibold text-white mb-2">2020: Prototype & Seed Funding</h3>
+                            <p class="text-gray-300">Successful development of our AI core engine and securing initial seed investment.</p>
+                        </div>
+                        <div class="timeline-item-marker"></div>
+                    </div>
+                    <div class="timeline-item left animate-slide-in-left" data-animation-type="slide-in-left" data-animation-delay="0.2s">
+                        <div class="timeline-item-content">
+                            <h3 class="text-xl font-semibold text-white mb-2">2021: First Product Launch</h3>
+                            <p class="text-gray-300">Introduction of AI Subtitle QC, gaining traction with early enterprise clients.</p>
+                        </div>
+                        <div class="timeline-item-marker"></div>
+                    </div>
+                    <div class="timeline-item right animate-slide-in-right" data-animation-type="slide-in-right" data-animation-delay="0.2s">
+                        <div class="timeline-item-content">
+                            <h3 class="text-xl font-semibold text-white mb-2">2022: Expanding Solutions</h3>
+                            <p class="text-gray-300">Launched Ad & Promo Detection and Radio Monitoring, serving new market segments.</p>
+                        </div>
+                        <div class="timeline-item-marker"></div>
+                    </div>
+                    <div class="timeline-item left animate-slide-in-left" data-animation-type="slide-in-left" data-animation-delay="0.4s">
+                        <div class="timeline-item-content">
+                            <h3 class="text-xl font-semibold text-white mb-2">2023: Global Expansion</h3>
+                            <p class="text-gray-300">Opened new offices and expanded client base across continents.</p>
+                        </div>
+                        <div class="timeline-item-marker"></div>
+                    </div>
+                    <div class="timeline-item right animate-slide-in-right" data-animation-type="slide-in-right" data-animation-delay="0.4s">
+                        <div class="timeline-item-content">
+                            <h3 class="text-xl font-semibold text-white mb-2">Present: Continuous Innovation</h3>
+                            <p class="text-gray-300">Committed to developing next-generation AI solutions for evolving media intelligence needs.</p>
+                        </div>
+                        <div class="timeline-item-marker"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-950 py-12 relative z-10 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8 text-gray-300">
+            <!-- Logo & About -->
+            <div>
+                <a href="index.html" class="text-2xl font-bold text-indigo-500 mb-4 block">tabsons.ai</a>
+                <p class="text-gray-400 text-sm leading-relaxed">
+                    Pioneering AI-powered media intelligence to empower businesses with actionable insights and operational efficiency.
+                </p>
+            </div>
+
+            <!-- Quick Links -->
+            <div>
+                <h4 class="text-lg font-semibold text-white mb-4">Quick Links</h4>
+                <ul class="space-y-2">
+                    <li><a href="about.html" class="hover:text-indigo-400 transition-colors duration-300">About Us</a></li>
+                    <li><a href="solutions.html" class="hover:text-indigo-400 transition-colors duration-300">Solutions</a></li>
+                    <li><a href="industries.html" class="hover:text-indigo-400 transition-colors duration-300">Industries</a></li>
+                    <li><a href="media-intelligence.html" class="hover:text-indigo-400 transition-colors duration-300">Media Intelligence</a></li>
+                    <li><a href="insights.html" class="hover:text-indigo-400 transition-colors duration-300">Insights</a></li>
+                </ul>
+            </div>
+
+            <!-- More Links -->
+            <div>
+                <h4 class="text-lg font-semibold text-white mb-4">Company</h4>
+                <ul class="space-y-2">
+                    <li><a href="clients.html" class="hover:text-indigo-400 transition-colors duration-300">Clients</a></li>
+                    <li><a href="blog.html" class="hover:text-indigo-400 transition-colors duration-300">Blog</a></li>
+                    <li><a href="careers.html" class="hover:text-indigo-400 transition-colors duration-300">Careers</a></li>
+                    <li><a href="contact.html" class="hover:text-indigo-400 transition-colors duration-300">Contact Us</a></li>
+                    <li><a href="#" class="hover:text-indigo-400 transition-colors duration-300">Privacy Policy</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact & Social -->
+            <div>
+                <h4 class="text-lg font-semibold text-white mb-4">Get in Touch</h4>
+                <p class="text-gray-400 mb-2">754, Khandsa Rd, Pace City II, Sector 37, Gurugram, Mohammadpur Jharsa, Haryana 122001</p>
+                <p class="text-gray-400 mb-2">Email: <a href="mailto:info@tabsons.ai" class="hover:text-indigo-400">info@tabsons.ai</a></p>
+                <p class="text-gray-400 mb-4">Phone: <a href="tel:+15551234567" class="hover:text-indigo-400">+91 82877 68751 / +91 98186 39577</a></p>
+                <div class="flex space-x-4">
+                    <a href="https://in.linkedin.com/company/tabsons.com" class="text-gray-400 hover:text-indigo-500 transition-colors duration-300 text-xl" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-indigo-500 transition-colors duration-300 text-xl"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-indigo-500 transition-colors duration-300 text-xl"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/tabsons/" class="text-gray-400 hover:text-indigo-500 transition-colors duration-300 text-xl" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="mt-10 pt-6 border-t border-gray-800 text-center text-gray-500 text-sm">
+            &copy; <span id="current-year"></span> 
+            <span class="font-bold text-indigo-500">tabsons.ai</span>. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript for mobile navigation and scroll animations
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const closeMobileMenuButton = document.getElementById('close-mobile-menu-button');
+            const mobileNavOverlay = document.getElementById('mobile-nav-overlay');
+
+            mobileMenuButton.addEventListener('click', () => {
+                mobileNavOverlay.classList.add('is-open');
+                document.body.style.overflow = 'hidden';
+            });
+
+            closeMobileMenuButton.addEventListener('click', () => {
+                mobileNavOverlay.classList.remove('is-open');
+                document.body.style.overflow = '';
+            });
+
+            mobileNavOverlay.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileNavOverlay.classList.remove('is-open');
+                    document.body.style.overflow = '';
+                });
+            });
+
+            const animateElements = document.querySelectorAll('[data-animation-type]');
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const animationType = entry.target.dataset.animationType;
+                        const animationDelay = entry.target.dataset.animationDelay || '0s';
+
+                        entry.target.style.transitionDelay = animationDelay;
+                        entry.target.classList.add('is-visible');
+                        
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -10% 0px' });
+
+            animateElements.forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+</body>
+</html>
